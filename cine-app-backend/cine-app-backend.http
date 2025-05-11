@@ -1,0 +1,6 @@
+@cine_app_backend_HostAddress = http://localhost:5090
+
+GET {{cine_app_backend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
