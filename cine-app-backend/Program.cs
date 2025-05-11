@@ -1,9 +1,18 @@
+using cine_app_backend.Data;
+using cine_app_backend.Repositories;
+using cine_app_backend.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+
+// Registro de dependências
+builder.Services.AddScoped<IMovieRepository, MovieRepository>();
+builder.Services.AddScoped<DbConnectionFactory>();
+builder.Services.AddScoped<MovieService>();
+
+// OpenAPI
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
