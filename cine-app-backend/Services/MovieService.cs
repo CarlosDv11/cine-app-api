@@ -57,5 +57,10 @@ namespace cine_app_backend.Services
         {
             await _movieRepository.DeleteAsync(id);
         }
+
+        public async Task<IEnumerable<Movie>> SearchAsync(string? genre, string? title)
+        {
+            return await _movieRepository.SearchAsync(genre, title);
+        }
     }
 }

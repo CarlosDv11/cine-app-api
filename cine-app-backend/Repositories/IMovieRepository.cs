@@ -9,5 +9,6 @@ namespace cine_app_backend.Repositories
         Task<IEnumerable<Movie>> GetAllAsync();
         Task<Movie?> GetByIdAsync(int id);
         Task DeleteAsync(int id);
+        Task<IEnumerable<Movie>> SearchAsync(string? genre, string? title);
     }
 }

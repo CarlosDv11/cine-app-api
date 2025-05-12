@@ -102,5 +102,19 @@ namespace cine_app_backend.Controllers
                 return StatusCode(500, "An error occurred while deleting the movie.");
             }
         }
+
+        [HttpGet("search")]
+        public async Task<ActionResult<IEnumerable<Movie>>> Search([FromQuery] string? genre, [FromQuery] string? title)
+        {
+            try
+            {
+                var movies = await _movieService.SearchAsync(genre, title);
+                return Ok(movies);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "An error occurred while searching for movies.");
+            }
+        }
     }
 }

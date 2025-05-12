@@ -68,5 +68,28 @@ namespace cine_app_backend.Repositories
 
             await connection.ExecuteAsync(sql, new { Id = id });
         }
+
+        public async Task<IEnumerable<Movie>> SearchAsync(string? genre, string? title)
+        {
+            using var connection = _connectionFactory.CreateConnection();
+
+            var sql = "SELECT * FROM Movies WHERE 1 = 1";
+            var parameters = new DynamicParameters();
+
+            if (!string.IsNullOrEmpty(genre))
+            {
+                sql += " AND Genre LIKE @Genre";
+                parameters.Add("Genre", $"%{genre}%");
+            }
+
+            if (!string.IsNullOrEmpty(title))
+            {
+                sql += " AND Title LIKE @Title";
+                parameters.Add("Title", $"%{title}%");
+            }
+
+            var result = await connection.QueryAsync<Movie>(sql, parameters);
+            return result;
+        }
     }
 }
