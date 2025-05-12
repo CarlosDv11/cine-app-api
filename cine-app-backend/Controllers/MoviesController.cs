@@ -20,42 +20,87 @@ namespace cine_app_backend.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] MovieCreateDto dto)
         {
-            await _movieService.CreateAsync(dto);
-            return Ok();
+            if (dto == null)
+            {
+                return BadRequest("Movie data is required");
+            }
+
+            try
+            {
+                await _movieService.CreateAsync(dto);
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "An error occurred while creating the movie.");
+            }
         }
 
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] MovieUpdateDto dto)
         {
-            await _movieService.UpdateAsync(dto);
-            return Ok();
+            if (dto == null)
+            {
+                return BadRequest("Movie data is required");
+            }
+
+            try
+            {
+                await _movieService.UpdateAsync(dto);
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "An error occurred while updating the movie.");
+            }
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Movie>>> GetAll()
         {
-            var movies = await _movieService.GetAllAsync();
-            return Ok(movies);
+            try
+            {
+                var movies = await _movieService.GetAllAsync();
+                return Ok(movies);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "An error occurred while retrieving the movies.");
+            }
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Movie>> GetById(int id)
         {
-            var movie = await _movieService.GetByIdAsync(id);
-
-            if (movie == null)
+            try
             {
-                return NotFound();
-            }
+                var movie = await _movieService.GetByIdAsync(id);
 
-            return Ok(movie);
+                if (movie == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(movie);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "An error occurred while retrieving the movie.");
+            }
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            await _movieService.DeleteAsync(id);
-            return Ok();
+            try
+            {
+                await _movieService.DeleteAsync(id);
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "An error occurred while deleting the movie.");
+            }
         }
     }
 }
